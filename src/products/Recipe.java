@@ -1,40 +1,41 @@
 package products;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Recipe {
     private String name;
-    private Set<Product> products = new HashSet<>();
+    private Map<Product,Integer> products = new HashMap<>();
+
     private double totalPrice;
 
     public Recipe(String name, Set<Product> products) {
         this.name = name;
-        this.products = products;
+        for (Product product : products) {
+            addProduct(product, 3);
+        }
     }
 
     private void calculateTotalPrice() {
         double price = 0;
-        for (Product product : products) {
-            price += product.getPrice();
+            for (Product product : products.keySet()) {
+                price += product.getPrice() * products.get(product);
+            }
+            totalPrice = price;
         }
-        totalPrice = price;
-    }
 
     public double getTotalPrice() {
         calculateTotalPrice();
         return totalPrice;
     }
 
-    public void addProduct(Product product){
+    public void addProduct(Product product, int i){
         if (!product.isCompleted()) {
             throw new RuntimeException("Товар имеет незаполненные поля. Исправьте это перед добавлением в список!");
         }
-        if (products.contains(product)) {
+        if (products.containsKey(product)) {
             throw new RuntimeException("Вы пытаетесть добавить товар, который уже в списке!");
         } else {
-            products.add(product);
+            products.put(product,1);
         }
     }
 
@@ -42,7 +43,7 @@ public class Recipe {
         return name;
     }
 
-    public void setProducts(Set<Product> products) {
+    public void setProducts(Map<Product,Integer> products) {
         this.products = products;
     }
 
@@ -58,5 +59,13 @@ public class Recipe {
     public int hashCode() {
         return Objects.hash(name, products, totalPrice);
     }
-
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "name='" + name + '\'' +
+                ", products=" + products +
+                ", totalPrice=" + getTotalPrice() +
+                '}';
+    }
 }
+

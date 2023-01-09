@@ -1,7 +1,8 @@
 package products;
-
+import java.util.Arrays;
 import java.util.HashSet;
-
+import java.util.Map;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
 
@@ -23,11 +24,14 @@ public class Main {
 
 
         Recipe breakfast = new Recipe("Breakfast", productList.getProductList());
+        breakfast.addProduct(banana,3);
         Recipe lunch = new Recipe("Lunch", productList.getProductList());
         RecipeBook recipeBook = new RecipeBook();
         recipeBook.addRecipe(breakfast);
         recipeBook.addRecipe(lunch);
         Recipe dinner = new Recipe("Dinner", new HashSet<>());
+        System.out.println(breakfast);
+
 
     }
 }
